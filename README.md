@@ -1,7 +1,7 @@
 # Deploy do Langflow no Google Cloud Platform (GCP)
 
 Este guia documenta o processo completo para fazer o deploy da aplicação [Langflow](https://github.com/langflow-ai/langflow) no Google Cloud Run, utilizando o Google Cloud Build para a construção da imagem Docker.
-teste
+
 ## Visão Geral
 
 O objetivo deste projeto é encapsular o Langflow em uma imagem Docker e executá-lo como um serviço gerenciado e escalável no Google Cloud. O processo foi otimizado para superar desafios comuns de build, como timeouts e erros de inicialização no Cloud Run.
@@ -151,3 +151,4 @@ Pronto! Agora você tem um repositório limpo e focado, contendo apenas o necess
 [PROMPT_SUGGESTION]Quais são as melhores práticas de segurança para este serviço no Cloud Run?[/PROMPT_SUGGESTION]
 -->
 # Fixed E2 machine type
+# Testing with correct permissions
