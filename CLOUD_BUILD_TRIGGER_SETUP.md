@@ -87,32 +87,67 @@ Trigger criado! Agora cada push para `main` dispara um build automático.
 
 ---
 
-## 🌐 Passo 3: Verificar Permissões (Importante!)
+## 🌐 Passo 3: Configurar Permissões (Importante!)
 
 Para que o Cloud Build consiga fazer deploy no Cloud Run, a conta de serviço precisa de permissões:
 
+### 1. Criar a conta de serviço (se não existir)
+
 ```bash
-# Adicionar role ao Cloud Build Service Account
 PROJECT_ID="clean-art-334716"
 
+gcloud iam service-accounts create cloud-builds \
+  --project=$PROJECT_ID \
+  --display-name="Cloud Build Service Account"
+```
+
+**Nota:** Se a conta já existe, você verá um erro — é normal, apenas pule para o passo 2.
+
+### 2. Adicionar permissões à conta de serviço
+
+```bash
+PROJECT_ID="clean-art-334716"
+
+# Role para fazer deploy no Cloud Run
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member=serviceAccount:cloud-builds@${PROJECT_ID}.iam.gserviceaccount.com \
   --role=roles/run.admin
 
-# Verificar
+# Role para acessar/enviar para Container Registry (GCR)
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+  --member=serviceAccount:cloud-builds@${PROJECT_ID}.iam.gserviceaccount.com \
+  --role=roles/storage.admin
+```
+
+### 3. Verificar se foi aplicado
+
+```bash
+PROJECT_ID="clean-art-334716"
+
+# Listar a conta de serviço
+gcloud iam service-accounts list --filter="email:cloud-builds@*"
+
+# Listar as roles aplicadas
 gcloud projects get-iam-policy $PROJECT_ID \
   --flatten="bindings[].members" \
-  --filter="bindings.members:cloud-builds@*"
+  --filter="bindings.members:serviceAccount:cloud-builds@*"
 ```
 
-### ✅ Resultado
+### ✅ Resultado Esperado
 
-Você verá:
 ```
-bindings:
+DISPLAY NAME                 EMAIL                                                  DISABLED
+Cloud Build Service Account  cloud-builds@clean-art-334716.iam.gserviceaccount.com  False
+
+---
+
 - members:
   - serviceAccount:cloud-builds@clean-art-334716.iam.gserviceaccount.com
   role: roles/run.admin
+
+- members:
+  - serviceAccount:cloud-builds@clean-art-334716.iam.gserviceaccount.com
+  role: roles/storage.admin
 ```
 
 ---
