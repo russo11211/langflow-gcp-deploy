@@ -15,11 +15,9 @@ steps:
     args: [
       'build',
       '-t', 'gcr.io/$PROJECT_ID/langflow:${_IMAGE_TAG}',
-      '-t', 'gcr.io/$PROJECT_ID/langflow:$COMMIT_ID',
+      '-t', 'gcr.io/$PROJECT_ID/langflow:latest',
       '.'
     ]
-    env:
-      - 'COMMIT_ID=$(cat /workspace/env.txt | grep COMMIT_ID | cut -d= -f2)'
 
   # Etapa 3: Push da imagem para o Container Registry
   - name: 'gcr.io/cloud-builders/docker'
@@ -51,8 +49,12 @@ images:
 substitutions:
   _IMAGE_TAG: 'latest'
   _SERVICE: 'langflow'
-  _REGION: 'us-central1'
+  _REGION: 'southamerica-east1'
   _PORT: '7860'
   _MEMORY: '2Gi'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  machineType: 'N1_HIGHCPU_8'
 
 timeout: '2400s'
