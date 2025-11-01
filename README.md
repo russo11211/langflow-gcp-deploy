@@ -150,3 +150,4 @@ Pronto! Agora você tem um repositório limpo e focado, contendo apenas o necess
 [PROMPT_SUGGESTION]Como posso automatizar o build e deploy com um arquivo `cloudbuild.yaml`?[/PROMPT_SUGGESTION]
 [PROMPT_SUGGESTION]Quais são as melhores práticas de segurança para este serviço no Cloud Run?[/PROMPT_SUGGESTION]
 -->
+# Fixed E2 machine type
