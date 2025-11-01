@@ -152,3 +152,4 @@ Pronto! Agora você tem um repositório limpo e focado, contendo apenas o necess
 -->
 # Fixed E2 machine type
 # Testing with correct permissions
+# Testing with artifactregistry.writer
