@@ -1,15 +1,5 @@
 steps:
-  # Etapa 1: Extrai o hash do commit (para tag única)
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    id: 'Get Commit ID'
-    entrypoint: 'bash'
-    args:
-      - -c
-      - |
-        COMMIT_ID=$(git rev-parse --short HEAD || echo "local")
-        echo "COMMIT_ID=$COMMIT_ID" >> /workspace/env.txt
-
-  # Etapa 2: Build da imagem Docker
+  # Etapa 1: Build da imagem Docker
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build Docker image'
     args: [
@@ -19,14 +9,14 @@ steps:
       '.'
     ]
 
-  # Etapa 3: Push da imagem para o Container Registry
+  # Etapa 2: Push da imagem para o Container Registry
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push Docker image'
     args: [
       'push', 'gcr.io/$PROJECT_ID/langflow:${_IMAGE_TAG}'
     ]
 
-  # Etapa 4: Deploy automático no Cloud Run
+  # Etapa 3: Deploy automático no Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'Deploy to Cloud Run'
     entrypoint: 'bash'
