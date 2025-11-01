@@ -137,6 +137,15 @@ Próximos Passos: Como Organizar e Subir para o Git
 
 Pronto! Agora você tem um repositório limpo e focado, contendo apenas o necessário para replicar seu deploy de forma rápida e consistente.
 
+    ## Documentação adicional
+
+    Durante o processo de build e deploy criamos dois artefatos de suporte que documentam as decisões e o estado do deploy:
+
+    - `VERSIONING_ANALYSIS.md` — análise detalhada de compatibilidade de versões e as decisões tomadas para resolver conflitos de dependências.
+    - `DEPLOYMENT_COMPLETE.md` — resumo final do deploy, incluindo ID do build, imagem gerada e URL do serviço.
+
+    Consulte esses arquivos para entender o raciocínio por trás do pin das dependências e para recuperar informações do deploy.
+
 <!--
 [PROMPT_SUGGESTION]Como posso automatizar o build e deploy com um arquivo `cloudbuild.yaml`?[/PROMPT_SUGGESTION]
 [PROMPT_SUGGESTION]Quais são as melhores práticas de segurança para este serviço no Cloud Run?[/PROMPT_SUGGESTION]
