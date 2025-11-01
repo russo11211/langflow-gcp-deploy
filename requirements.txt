@@ -19,7 +19,7 @@ docstring-parser==0.16
 duckdb==1.0.0
 emoji==2.12.1
 exceptiongroup==1.2.1
-fastapi==0.111.0
+fastapi==0.115.2
 fastapi-cli==0.0.4
 frozenlist==1.4.1
 greenlet==3.0.3
