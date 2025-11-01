@@ -15,7 +15,7 @@ colorama==0.4.6
 cryptography==42.0.8
 dataclasses-json==0.6.7
 dill==0.3.8
-docstring-parser==0.15
+docstring-parser==0.16
 duckdb==1.0.0
 emoji==2.12.1
 exceptiongroup==1.2.1
