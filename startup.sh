@@ -24,15 +24,36 @@ if [ -d ".git" ]; then
   echo ""
 fi
 
-# Configure LangFlow to load flows and custom components from the mounted directories
-export LANGFLOW_LOAD_FLOWS_ON_STARTUP=true
-export LANGFLOW_FLOWS_PATH=/app/flows
-export LANGFLOW_CUSTOM_COMPONENTS_PATH=/app/custom_components
+# Configure LangFlow to load flows and custom components
+# The standard location for LangFlow data is ~/.langflow/
+# Since we're running as root, HOME=/root
 
-echo "[INFO] Configuration:"
-echo "  LANGFLOW_FLOWS_PATH: $LANGFLOW_FLOWS_PATH"
-echo "  LANGFLOW_CUSTOM_COMPONENTS_PATH: $LANGFLOW_CUSTOM_COMPONENTS_PATH"
-echo "  LANGFLOW_LOAD_FLOWS_ON_STARTUP: $LANGFLOW_LOAD_FLOWS_ON_STARTUP"
+echo "[INFO] Setting up LangFlow flows and custom components..."
+
+# Ensure the .langflow directory exists
+mkdir -p /root/.langflow/flows
+mkdir -p /root/.langflow/custom_components
+
+# Copy flows and custom components from /app to ~/.langflow/
+# (The Dockerfile already copied them, but we ensure they're in the right place)
+if [ -d "/app/flows" ] && [ "$(ls -A /app/flows)" ]; then
+  echo "[INFO] Copying flows to ~/.langflow/flows..."
+  cp -r /app/flows/* /root/.langflow/flows/ 2>/dev/null || true
+  echo "[INFO] Flows copied: $(ls /root/.langflow/flows | wc -l) files"
+else
+  echo "[WARN] No flows found in /app/flows"
+fi
+
+if [ -d "/app/custom_components" ] && [ "$(ls -A /app/custom_components)" ]; then
+  echo "[INFO] Copying custom components to ~/.langflow/custom_components..."
+  cp -r /app/custom_components/* /root/.langflow/custom_components/ 2>/dev/null || true
+  echo "[INFO] Custom components copied: $(ls /root/.langflow/custom_components | wc -l) items"
+else
+  echo "[WARN] No custom components found in /app/custom_components"
+fi
+
+echo "[INFO] LangFlow data directory prepared at ~/.langflow/"
+ls -la /root/.langflow/ || true
 echo ""
 
 # Launch the application directly with uvicorn for better compatibility with Cloud Run.
