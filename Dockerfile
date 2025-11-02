@@ -22,6 +22,11 @@ COPY startup.sh .
 # Garante que o script tenha permissões de execução e corrige os finais de linha (CRLF do Windows para LF do Linux).
 RUN apt-get update && apt-get install -y sed && sed -i 's/\r$//' startup.sh && chmod +x startup.sh
 
+# Etapa 6b: Copie os flows e custom components para o container
+# (Esses diretórios serão carregados automaticamente pelo Langflow na inicialização)
+COPY flows /app/flows
+COPY custom_components /app/custom_components
+
 # Etapa 7: Exponha a porta que o Langflow usa.
 EXPOSE 7860
 

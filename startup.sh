@@ -24,6 +24,17 @@ if [ -d ".git" ]; then
   echo ""
 fi
 
+# Configure LangFlow to load flows and custom components from the mounted directories
+export LANGFLOW_LOAD_FLOWS_ON_STARTUP=true
+export LANGFLOW_FLOWS_PATH=/app/flows
+export LANGFLOW_CUSTOM_COMPONENTS_PATH=/app/custom_components
+
+echo "[INFO] Configuration:"
+echo "  LANGFLOW_FLOWS_PATH: $LANGFLOW_FLOWS_PATH"
+echo "  LANGFLOW_CUSTOM_COMPONENTS_PATH: $LANGFLOW_CUSTOM_COMPONENTS_PATH"
+echo "  LANGFLOW_LOAD_FLOWS_ON_STARTUP: $LANGFLOW_LOAD_FLOWS_ON_STARTUP"
+echo ""
+
 # Launch the application directly with uvicorn for better compatibility with Cloud Run.
 # The --host 0.0.0.0 is crucial for the container to be accessible from outside.
 # The --port ${PORT:-7860} uses the environment variable provided by Cloud Run, or defaults to 7860.
