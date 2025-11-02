@@ -28,22 +28,24 @@ langflow-gcp-deploy/
 ### 1. **Dockerfile**
 O `Dockerfile` foi atualizado para copiar os diretórios `flows/` e `custom_components/` para dentro do container:
 ```dockerfile
-COPY flows /app/flows
-COPY custom_components /app/custom_components
+# Copiamos os diretórios diretamente para ~/.langflow
+COPY flows /root/.langflow/flows
+COPY custom_components /root/.langflow/custom_components
 ```
 
 ### 2. **startup.sh**
 O script de inicialização configura variáveis de ambiente que o Langflow reconhece:
 ```bash
-export LANGFLOW_LOAD_FLOWS_ON_STARTUP=true
-export LANGFLOW_FLOWS_PATH=/app/flows
-export LANGFLOW_CUSTOM_COMPONENTS_PATH=/app/custom_components
+export LANGFLOW_CONFIG_DIR=/root/.langflow
+export LANGFLOW_LOAD_FLOWS_PATH=/root/.langflow/flows
+export LANGFLOW_COMPONENTS_PATH=/root/.langflow/custom_components
+export LANGFLOW_SAVE_DB_IN_CONFIG_DIR=true
 ```
 
 ### 3. **Langflow Initialization**
 Quando o Langflow inicia:
-- ✅ Carrega todos os flows (`.json`) do diretório `/app/flows`
-- ✅ Carrega todos os custom components do diretório `/app/custom_components`
+- ✅ Carrega todos os flows (`.json`) do diretório `/root/.langflow/flows`
+- ✅ Carrega todos os custom components do diretório `/root/.langflow/custom_components`
 - ✅ Os flows aparecem na UI, disponíveis para importação/execução
 - ✅ Os componentes customizados aparecem na paleta de componentes
 
@@ -117,7 +119,7 @@ Para o escopo atual, **recomenda-se atualizar flows via repositório Git** (adic
 - [x] Arquivos JSON em `flows/`
 - [x] Custom components em `custom_components/`
 - [x] Dockerfile copia ambas as pastas
-- [x] `startup.sh` define `LANGFLOW_FLOWS_PATH` e `LANGFLOW_CUSTOM_COMPONENTS_PATH`
+- [x] `startup.sh` exporta variáveis `LANGFLOW_LOAD_FLOWS_PATH` e `LANGFLOW_COMPONENTS_PATH`
 - [x] Cloud Build rejeita a imagem com as novas estruturas
 - [ ] Acesse o Langflow e verifique se flows/components aparecem
 

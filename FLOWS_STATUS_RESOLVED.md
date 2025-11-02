@@ -6,15 +6,16 @@ Você colocou os arquivos nas pastas `flows/` e `custom_components/`, mas o Lang
 
 1. **Dockerfile**: Atualizado para copiar ambas as pastas para o container
    ```dockerfile
-   COPY flows /app/flows
-   COPY custom_components /app/custom_components
+   COPY flows /root/.langflow/flows
+   COPY custom_components /root/.langflow/custom_components
    ```
 
 2. **startup.sh**: Agora define variáveis de ambiente que o Langflow reconhece
    ```bash
-   export LANGFLOW_LOAD_FLOWS_ON_STARTUP=true
-   export LANGFLOW_FLOWS_PATH=/app/flows
-   export LANGFLOW_CUSTOM_COMPONENTS_PATH=/app/custom_components
+   export LANGFLOW_CONFIG_DIR=/root/.langflow
+   export LANGFLOW_LOAD_FLOWS_PATH=/root/.langflow/flows
+   export LANGFLOW_COMPONENTS_PATH=/root/.langflow/custom_components
+   export LANGFLOW_SAVE_DB_IN_CONFIG_DIR=true
    ```
 
 3. **Cloud Build**: Nova imagem construída e deployada (build ID: `ce9a3274-eef6-4151-b107-3de50f282f3d`)
@@ -48,13 +49,13 @@ Você colocou os arquivos nas pastas `flows/` e `custom_components/`, mas o Lang
 
 ```
 ✏️  Dockerfile
-   - Adicionado: COPY flows /app/flows
-   - Adicionado: COPY custom_components /app/custom_components
+   - Adicionado: COPY flows /root/.langflow/flows
+   - Adicionado: COPY custom_components /root/.langflow/custom_components
 
 ✏️  startup.sh
    - Adicionado: export LANGFLOW_LOAD_FLOWS_ON_STARTUP=true
-   - Adicionado: export LANGFLOW_FLOWS_PATH=/app/flows
-   - Adicionado: export LANGFLOW_CUSTOM_COMPONENTS_PATH=/app/custom_components
+   - Adicionado: export LANGFLOW_LOAD_FLOWS_PATH=/root/.langflow/flows
+   - Adicionado: export LANGFLOW_COMPONENTS_PATH=/root/.langflow/custom_components
 
 📄 FLOWS_AND_COMPONENTS_GUIDE.md (novo)
    - Documentação completa sobre como flows e components são carregados
@@ -100,8 +101,10 @@ gcloud run logs read langflow --region=southamerica-east1 --project=clean-art-33
 Você deverá ver algo como:
 ```
 [INFO] Configuration:
-  LANGFLOW_FLOWS_PATH: /app/flows
-  LANGFLOW_CUSTOM_COMPONENTS_PATH: /app/custom_components
+   LANGFLOW_CONFIG_DIR: /root/.langflow
+   LANGFLOW_LOAD_FLOWS_PATH: /root/.langflow/flows
+   LANGFLOW_COMPONENTS_PATH: /root/.langflow/custom_components
+   LANGFLOW_SAVE_DB_IN_CONFIG_DIR: true
   LANGFLOW_LOAD_FLOWS_ON_STARTUP: true
 [INFO] Starting uvicorn server...
 ```

@@ -56,6 +56,19 @@ echo "[INFO] LangFlow data directory prepared at ~/.langflow/"
 ls -la /root/.langflow/ || true
 echo ""
 
+# Export configuration so LangFlow knows where to look for flows/components
+export LANGFLOW_CONFIG_DIR=/root/.langflow
+export LANGFLOW_LOAD_FLOWS_PATH=/root/.langflow/flows
+export LANGFLOW_COMPONENTS_PATH=/root/.langflow/custom_components
+export LANGFLOW_SAVE_DB_IN_CONFIG_DIR=true
+
+echo "[INFO] LangFlow environment configuration:"
+echo "  LANGFLOW_CONFIG_DIR: ${LANGFLOW_CONFIG_DIR}"
+echo "  LANGFLOW_LOAD_FLOWS_PATH: ${LANGFLOW_LOAD_FLOWS_PATH}"
+echo "  LANGFLOW_COMPONENTS_PATH: ${LANGFLOW_COMPONENTS_PATH}"
+echo "  LANGFLOW_SAVE_DB_IN_CONFIG_DIR: ${LANGFLOW_SAVE_DB_IN_CONFIG_DIR}"
+echo ""
+
 # Launch the application directly with uvicorn for better compatibility with Cloud Run.
 # The --host 0.0.0.0 is crucial for the container to be accessible from outside.
 # The --port ${PORT:-7860} uses the environment variable provided by Cloud Run, or defaults to 7860.
